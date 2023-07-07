@@ -1,29 +1,14 @@
 extends CharacterBody3D
 
-#enum StateMachine {
-#	IDLE,
-#	WALK,
-#	JUMP,
-#	SPRINT
-#}
-#var state := StateMachine.IDLE
-
 func _physics_process(delta: float) -> void:
 	gravity(delta)
-	walk(delta)
-	jump()
-	sprint(delta)
 	
 	move_and_slide()
 
-func walk(delta: float) -> void:
-	$WalkComponent.walk(delta, $WalkComponent.SPEED)
+func _input(event: InputEvent) -> void:
+	var sensity = 0.1
+	if event is InputEventMouseMotion:
+		rotation_degrees.y -= event.relative.x * sensity
 
 func gravity(delta: float) -> void:
 	$GravitationComponent.gravity(delta)
-
-func jump() -> void:
-	$JumpComponent.jump()
-
-func sprint(delta: float) -> void:
-	$SprintComponent.sprint(delta)

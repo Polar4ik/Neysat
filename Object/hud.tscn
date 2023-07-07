@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsvuvj8je7lgo"]
+[gd_scene load_steps=6 format=3 uid="uid://dsvuvj8je7lgo"]
 
 [sub_resource type="GDScript" id="GDScript_t4fbh"]
 script/source = "extends VBoxContainer
@@ -7,7 +7,7 @@ func _ready() -> void:
 	Events.change_stamina.connect(_update_stamine)
 
 func _update_stamine(value: float) -> void:
-		$Stamina.value = lerp($Stamina.value, value, 0.5)
+		$Stamina.value = lerp($Stamina.value, value, 2 / PI)
 "
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m788u"]
@@ -19,6 +19,14 @@ bg_color = Color(0.0666667, 0.396078, 0.831373, 1)
 [sub_resource type="Theme" id="Theme_l7q0g"]
 ProgressBar/styles/background = SubResource("StyleBoxFlat_m788u")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_me7e1")
+
+[sub_resource type="GDScript" id="GDScript_yrqn6"]
+script/source = "extends VBoxContainer
+
+
+func _process(_delta: float) -> void:
+	$FPSLabel.text = \"FPS: \" + str(Engine.get_frames_per_second())
+"
 
 [node name="HUDRoot" type="CanvasLayer"]
 
@@ -33,13 +41,16 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Statistic" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 script = SubResource("GDScript_t4fbh")
 
-[node name="Stamina" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+[node name="Stamina" type="ProgressBar" parent="MarginContainer/HBoxContainer/Statistic"]
 custom_minimum_size = Vector2(250, 20)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -47,9 +58,20 @@ theme = SubResource("Theme_l7q0g")
 value = 100.0
 show_percentage = false
 
-[node name="Hp" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+[node name="Hp" type="ProgressBar" parent="MarginContainer/HBoxContainer/Statistic"]
 custom_minimum_size = Vector2(300, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 value = 100.0
 show_percentage = false
+
+[node name="Info" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+script = SubResource("GDScript_yrqn6")
+
+[node name="FPSLabel" type="Label" parent="MarginContainer/HBoxContainer/Info"]
+custom_minimum_size = Vector2(80, 20)
+layout_mode = 2
+text = "FPS:999"

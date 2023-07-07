@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkofyoe1kjlby"]
+
+[ext_resource type="Script" path="res://Components/Scripts/LienComponent.gd" id="1_hfat1"]
+
+[node name="LienComponent" type="Node"]
+script = ExtResource("1_hfat1")
