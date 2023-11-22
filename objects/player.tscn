@@ -1,0 +1,42 @@
+[gd_scene load_steps=9 format=3 uid="uid://bqgt4hmfoj1d8"]
+
+[ext_resource type="Script" path="res://scripts/state machine/states/idle.gd" id="1_7nn1v"]
+[ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_oon62"]
+[ext_resource type="Script" path="res://scripts/input_handler.gd" id="1_ujrrw"]
+[ext_resource type="Script" path="res://scripts/state machine/state_machine.gd" id="2_no3ry"]
+[ext_resource type="Script" path="res://scripts/state machine/states/walk.gd" id="4_y2his"]
+[ext_resource type="Script" path="res://scripts/state machine/states/jump.gd" id="5_8tynw"]
+[ext_resource type="Script" path="res://scripts/state machine/states/on_air.gd" id="7_pr0ir"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_il1up"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_oon62")
+
+[node name="NormalCollision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_il1up")
+
+[node name="Head" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+rotation_edit_mode = 2
+
+[node name="MainCamera" type="Camera3D" parent="Head"]
+
+[node name="InputHandler" type="Node" parent="."]
+script = ExtResource("1_ujrrw")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("init_state")]
+script = ExtResource("2_no3ry")
+init_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("1_7nn1v")
+
+[node name="Walk" type="Node" parent="StateMachine"]
+script = ExtResource("4_y2his")
+
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource("5_8tynw")
+
+[node name="OnAir" type="Node" parent="StateMachine"]
+script = ExtResource("7_pr0ir")
