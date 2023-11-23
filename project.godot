@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 EI="*res://core/singleton/EventsInput.gd"
+DI="*res://core/singleton/DebugInfo.gd"
 
 [display]
 

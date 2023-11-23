@@ -1,30 +1,28 @@
 extends State
+class_name Walk
 
 @onready var player: CharacterBody3D = $"../.."
 @onready var head: Marker3D = $"../../Head"
 
 var speed: float = 5.0
-var friction: float = 9.0
-var acceleration: float = 0.2
 
 var input_vec: Vector2
-var direction
+var direction: Vector3
 
 func _ready() -> void:
 	EI.move_input.connect(func(iv): input_vec = iv)
+	EI.jump.connect(func(): change.emit(self, "jump"))
 
 func update(_delta: float) -> void:
-	print(direction)
 	
 	if input_vec == Vector2.ZERO:
 		change.emit(self, "idle")
 
-func physics_update(_delta: float) -> void:
-	move()
+func physics_update(delta: float) -> void:
+	move(delta)
 
-func move() -> void:
-	direction = (Basis(Quaternion(Vector3(0, 1, 0), head.rotation.y)) * Vector3(input_vec.x, 0, input_vec.y)).normalized()
+func move(delta: float) -> void:
+	direction = (player.transform.basis * Vector3(input_vec.x, 0, input_vec.y)).normalized()
 	
-	player.velocity.x = speed * direction.x
-	player.velocity.z = speed * direction.z
-	
+	player.velocity.x = lerpf(player.velocity.x, speed * direction.x, delta * 5.0)
+	player.velocity.z = lerpf(player.velocity.z, speed * direction.z, delta * 5.0)
