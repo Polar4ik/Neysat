@@ -4,7 +4,9 @@ class_name Walk
 @onready var player: CharacterBody3D = $"../.."
 @onready var head: Marker3D = $"../../Head"
 
-var speed: float = 5.0
+var MAX_WALK_SPEED: float = 5.0
+
+var speed: float = 0.0
 
 var input_vec: Vector2
 var direction: Vector3
@@ -13,8 +15,10 @@ func _ready() -> void:
 	EI.move_input.connect(func(iv): input_vec = iv)
 	EI.jump.connect(func(): change.emit(self, "jump"))
 
+func enter() -> void:
+	speed = MAX_WALK_SPEED
+
 func update(_delta: float) -> void:
-	
 	if input_vec == Vector2.ZERO:
 		change.emit(self, "idle")
 

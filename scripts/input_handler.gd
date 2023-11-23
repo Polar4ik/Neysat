@@ -17,13 +17,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		rotation_head(event)
 	
-	if Input.get_vector("left", "right", "forward", "back"):
+	if Input.get_vector("left", "right", "forward", "back") and not Input.is_action_pressed("sprint"):
 		input_move()
 	else:
 		EI.move_input.emit(Vector2.ZERO)
 	
+	if Input.get_vector("left", "right", "forward", "back") and Input.is_action_pressed("sprint"):
+		var input_vec: Vector2 = Input.get_vector("left", "right", "forward", "back")
+		EI.sprint_input.emit(input_vec)
+	else:
+		EI.sprint_input.emit(Vector2.ZERO)
+	
 	if Input.is_action_just_pressed("jump"):
 		EI.jump.emit()
+	
 	
 
 func rotation_head(event: InputEventMouseMotion) -> void:
