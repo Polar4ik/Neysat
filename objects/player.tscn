@@ -2,14 +2,12 @@
 
 [ext_resource type="Script" path="res://scripts/state machine/states/idle.gd" id="1_7nn1v"]
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_oon62"]
-[ext_resource type="Script" path="res://scripts/input_handler.gd" id="1_ujrrw"]
+[ext_resource type="Script" path="res://scripts/player/head_controller.gd" id="2_jpkjg"]
 [ext_resource type="Script" path="res://scripts/state machine/state_machine.gd" id="2_no3ry"]
 [ext_resource type="Script" path="res://scripts/state machine/states/walk.gd" id="4_y2his"]
 [ext_resource type="Script" path="res://scripts/state machine/states/jump.gd" id="5_8tynw"]
 [ext_resource type="Script" path="res://scripts/state machine/states/on_air.gd" id="7_pr0ir"]
 [ext_resource type="Script" path="res://scripts/state machine/states/sprint.gd" id="8_uvgns"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_il1up"]
 
 [sub_resource type="GDScript" id="GDScript_a8owo"]
 script/source = "extends Node
@@ -21,19 +19,22 @@ func _process(_delta: float) -> void:
 	DI.player_state = $\"../StateMachine\".curent_state.name
 "
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_il1up"]
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_oon62")
+
+[node name="DEBUG" type="Node" parent="."]
+script = SubResource("GDScript_a8owo")
 
 [node name="NormalCollision" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_il1up")
 
 [node name="Head" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("2_jpkjg")
 
 [node name="MainCamera" type="Camera3D" parent="Head"]
-
-[node name="InputHandler" type="Node" parent="."]
-script = ExtResource("1_ujrrw")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("init_state")]
 script = ExtResource("2_no3ry")
@@ -53,6 +54,3 @@ script = ExtResource("5_8tynw")
 
 [node name="OnAir" type="Node" parent="StateMachine"]
 script = ExtResource("7_pr0ir")
-
-[node name="DEBUG" type="Node" parent="."]
-script = SubResource("GDScript_a8owo")

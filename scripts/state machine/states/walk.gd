@@ -11,10 +11,18 @@ var speed: float = 0.0
 var input_vec: Vector2
 var direction: Vector3
 
-func _ready() -> void:
-	EI.move_input.connect(func(iv): input_vec = iv)
-#	EI.sprint_input.connect(func(_iv): change.emit(self, "sprint"))
-	EI.jump.connect(func(): change.emit(self, "jump"))
+
+func _unhandled_input(_event: InputEvent) -> void:
+	input_vec = Input.get_vector("left", "right", "forward", "back")
+	
+	if Input.is_action_pressed("sprint"):
+		change.emit(self, "sprint")
+	
+	if not Input.is_action_pressed("sprint"):
+		change.emit(self, "walk")
+	
+	if Input.is_action_just_pressed("jump"):
+		change.emit(self, "jump")
 
 
 func enter() -> void:

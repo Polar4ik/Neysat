@@ -3,33 +3,38 @@ extends State
 @onready var player: CharacterBody3D = $"../.."
 @onready var head: Marker3D = $"../../Head"
 
-var walk_input_vec: Vector2
-var sprint_input_vec: Vector2
+var walk = false
+var sprint = false
 
-func _ready() -> void:
-	EI.move_input.connect(func(iv): 
-		walk_input_vec = iv
-		change.emit(self, "walk"))
+func _unhandled_input(_event: InputEvent) -> void:
+	var input_vec: Vector2 = Input.get_vector("left", "right", "forward", "back")
 	
 	
-	EI.sprint_input.connect(func(iv):
-		sprint_input_vec = iv
-		change.emit(self, "sprint"))
+	if input_vec and not Input.is_action_pressed("sprint"):
+		change.emit(self, "walk")
+		walk = true
+		sprint = false
+	elif input_vec == Vector2.ZERO:
+		walk = false
 	
+	if input_vec and Input.is_action_pressed("sprint"):
+		change.emit(self, "sprint")
+		sprint = true
+		walk = false
+	elif input_vec == Vector2.ZERO or not Input.is_action_pressed("sprint"):
+		sprint = false
 	
-	EI.jump.connect(func(): change.emit(self, "jump"))
+	if Input.is_action_just_pressed("jump"):
+		change.emit(self, "jump")
 
 
 func enter() -> void:
-	if walk_input_vec:
+	if walk:
 		change.emit(self, "walk")
-	
-	if sprint_input_vec:
+	if sprint:
 		change.emit(self, "sprint")
 
-func update(delta: float) -> void:
-	head.position.y = sin(Time.get_ticks_msec() * 0.005) / 100.0
-	
+func update(_delta: float) -> void:
 	if !player.is_on_floor():
 		change.emit(self, "onair")
 

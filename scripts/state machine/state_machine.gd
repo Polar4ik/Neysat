@@ -14,6 +14,7 @@ func _ready() -> void:
 	
 	if init_state:
 		curent_state = init_state
+		curent_state.enter()
 
 
 func _process(delta: float) -> void:
