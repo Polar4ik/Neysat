@@ -4,7 +4,7 @@ class_name Walk
 @onready var player: CharacterBody3D = $"../.."
 @onready var head: Marker3D = $"../../Head"
 
-var WALK_SPEED: float = 5.0
+var WALK_SPEED: float = 6.0
 
 var speed: float = 0.0
 
@@ -41,5 +41,5 @@ func physics_update(delta: float) -> void:
 func move(delta: float) -> void:
 	direction = (player.transform.basis * Vector3(input_vec.x, 0, input_vec.y)).normalized()
 	
-	player.velocity.x = lerpf(player.velocity.x, speed * direction.x, delta * 2.0)
-	player.velocity.z = lerpf(player.velocity.z, speed * direction.z, delta * 2.0)
+	player.velocity.x = lerpf(player.velocity.x, speed * direction.x, delta * 4.0)
+	player.velocity.z = lerpf(player.velocity.z, speed * direction.z, delta * 4.0)

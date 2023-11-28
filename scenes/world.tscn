@@ -17,8 +17,8 @@ script/source = "extends Label
 func _process(_delta: float) -> void:
 	text = \"--DEBUG--
 	Velocity: %s
-	Input: %s
-	State: %s\" % [DI.player_velocity, DI.input_velocity, DI.player_state]
+	State: %s
+	Stamina: %s\" % [DI.player_velocity, DI.player_state, DI.stamina]
 "
 
 [node name="Node3D" type="Node3D"]

@@ -1,4 +1,5 @@
 extends State
+class_name Idle
 
 @onready var player: CharacterBody3D = $"../.."
 @onready var head: Marker3D = $"../../Head"
@@ -26,6 +27,9 @@ func _unhandled_input(_event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("jump"):
 		change.emit(self, "jump")
+	
+	if Input.is_action_just_pressed("croach"):
+		change.emit(self, "croach")
 
 
 func enter() -> void:
@@ -40,6 +44,8 @@ func update(_delta: float) -> void:
 
 
 func physics_update(delta: float) -> void:
+	$"../../Head".position.y = lerpf($"../../Head".position.y, 0.5, 0.5)
+	
 	if player.velocity != Vector3.ZERO:
 		slow(delta)
 
