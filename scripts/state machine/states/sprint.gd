@@ -1,10 +1,11 @@
 extends Walk
 
-var SPRINT_SPEED: float = 10.0
+var SPRINT_SPEED: float = 13.0
 
 var stamina: float = 0.0
 var MAX_STAMINA: float = 100.0
 
+var stamina_consumption: float = 0.1
 
 func _ready() -> void:
 	stamina = MAX_STAMINA
@@ -19,7 +20,7 @@ func enter() -> void:
 	speed = SPRINT_SPEED
 
 func update(_delta: float) -> void:
-	stamina -= 0.5
+	stamina -= stamina_consumption
 	stamina = clampf(stamina, 0.0, MAX_STAMINA)
 	
 	if stamina == 0.0:

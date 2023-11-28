@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bqgt4hmfoj1d8"]
+[gd_scene load_steps=15 format=3 uid="uid://bqgt4hmfoj1d8"]
 
 [ext_resource type="Script" path="res://scripts/state machine/states/idle.gd" id="1_7nn1v"]
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_oon62"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/player/stamina_reload.gd" id="7_ydg1k"]
 [ext_resource type="Script" path="res://scripts/state machine/states/sprint.gd" id="8_uvgns"]
 [ext_resource type="Script" path="res://scripts/state machine/states/croach.gd" id="10_gtnkd"]
+[ext_resource type="Script" path="res://scripts/state machine/states/crochwalk.gd" id="11_skpg6"]
 
 [sub_resource type="GDScript" id="GDScript_a8owo"]
 script/source = "extends Node
@@ -75,5 +76,8 @@ script = ExtResource("7_pr0ir")
 
 [node name="Croach" type="Node" parent="StateMachine"]
 script = ExtResource("10_gtnkd")
+
+[node name="CroachWalk" type="Node" parent="StateMachine"]
+script = ExtResource("11_skpg6")
 
 [connection signal="timeout" from="StateMachine/Sprint/WaitTime" to="StateMachine/Sprint/StaminaReload" method="_on_wait_time_timeout"]

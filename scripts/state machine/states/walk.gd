@@ -23,13 +23,19 @@ func _unhandled_input(_event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("jump"):
 		change.emit(self, "jump")
+	
+	if Input.is_action_pressed("croach"):
+		change.emit(self, "croachwalk")
 
 
 func enter() -> void:
+	$"../../NormalCollision".disabled = false
+	$"../../CroachCollision".disabled = true
 	speed = WALK_SPEED
 
 
 func update(_delta: float) -> void:
+	$"../../Head".position.y = lerpf($"../../Head".position.y, 0.5, 0.5)
 	if input_vec == Vector2.ZERO:
 		change.emit(self, "idle")
 

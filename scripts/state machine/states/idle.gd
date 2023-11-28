@@ -33,19 +33,21 @@ func _unhandled_input(_event: InputEvent) -> void:
 
 
 func enter() -> void:
+	$"../../NormalCollision".disabled = false
+	$"../../CroachCollision".disabled = true
+	
 	if walk:
 		change.emit(self, "walk")
 	if sprint:
 		change.emit(self, "sprint")
 
 func update(_delta: float) -> void:
+	$"../../Head".position.y = lerpf($"../../Head".position.y, 0.5, 0.5)
 	if !player.is_on_floor():
 		change.emit(self, "onair")
 
 
 func physics_update(delta: float) -> void:
-	$"../../Head".position.y = lerpf($"../../Head".position.y, 0.5, 0.5)
-	
 	if player.velocity != Vector3.ZERO:
 		slow(delta)
 
