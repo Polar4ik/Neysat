@@ -64,3 +64,8 @@ size_flags_vertical = 0
 text = "--DEBUG--
 "
 script = SubResource("GDScript_o3xxy")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.23815, -8)
+use_collision = true
+size = Vector3(7.18343, 0.178414, 3.428)

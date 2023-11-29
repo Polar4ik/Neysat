@@ -48,6 +48,10 @@ script = ExtResource("2_jpkjg")
 
 [node name="MainCamera" type="Camera3D" parent="Head"]
 
+[node name="RoofDetecter" type="RayCast3D" parent="Head"]
+target_position = Vector3(0, 1, 0)
+debug_shape_thickness = 5
+
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("init_state")]
 script = ExtResource("2_no3ry")
 init_state = NodePath("Idle")
@@ -79,5 +83,7 @@ script = ExtResource("10_gtnkd")
 
 [node name="CroachWalk" type="Node" parent="StateMachine"]
 script = ExtResource("11_skpg6")
+
+[node name="Slide" type="Node" parent="StateMachine"]
 
 [connection signal="timeout" from="StateMachine/Sprint/WaitTime" to="StateMachine/Sprint/StaminaReload" method="_on_wait_time_timeout"]
