@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bqgt4hmfoj1d8"]
+[gd_scene load_steps=16 format=3 uid="uid://bqgt4hmfoj1d8"]
 
 [ext_resource type="Script" path="res://scripts/state machine/states/idle.gd" id="1_7nn1v"]
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_oon62"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scripts/state machine/states/sprint.gd" id="8_uvgns"]
 [ext_resource type="Script" path="res://scripts/state machine/states/croach.gd" id="10_gtnkd"]
 [ext_resource type="Script" path="res://scripts/state machine/states/crochwalk.gd" id="11_skpg6"]
+[ext_resource type="Script" path="res://scripts/state machine/states/slide.gd" id="12_olmfe"]
 
 [sub_resource type="GDScript" id="GDScript_a8owo"]
 script/source = "extends Node
@@ -29,6 +30,7 @@ func _process(_delta: float) -> void:
 height = 1.5
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 2
 script = ExtResource("1_oon62")
 
 [node name="DEBUG" type="Node" parent="."]
@@ -37,10 +39,14 @@ script = SubResource("GDScript_a8owo")
 [node name="NormalCollision" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_il1up")
 
-[node name="CroachCollision" type="CollisionShape3D" parent="."]
+[node name="CrouchCollision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("CapsuleShape3D_76jss")
 disabled = true
+
+[node name="RoofDetecter" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+target_position = Vector3(0, 1, 0)
 
 [node name="Head" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -48,9 +54,11 @@ script = ExtResource("2_jpkjg")
 
 [node name="MainCamera" type="Camera3D" parent="Head"]
 
-[node name="RoofDetecter" type="RayCast3D" parent="Head"]
-target_position = Vector3(0, 1, 0)
-debug_shape_thickness = 5
+[node name="RoofRemoter" type="RemoteTransform3D" parent="Head"]
+remote_path = NodePath("../../RoofDetecter")
+use_global_coordinates = false
+update_rotation = false
+update_scale = false
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("init_state")]
 script = ExtResource("2_no3ry")
@@ -78,12 +86,16 @@ script = ExtResource("5_8tynw")
 [node name="OnAir" type="Node" parent="StateMachine"]
 script = ExtResource("7_pr0ir")
 
-[node name="Croach" type="Node" parent="StateMachine"]
+[node name="Crouch" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter")]
 script = ExtResource("10_gtnkd")
+roof_detecter = NodePath("../../RoofDetecter")
 
-[node name="CroachWalk" type="Node" parent="StateMachine"]
+[node name="CrouchWalk" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter")]
 script = ExtResource("11_skpg6")
+roof_detecter = NodePath("../../RoofDetecter")
 
-[node name="Slide" type="Node" parent="StateMachine"]
+[node name="Slide" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter")]
+script = ExtResource("12_olmfe")
+roof_detecter = NodePath("../../RoofDetecter")
 
 [connection signal="timeout" from="StateMachine/Sprint/WaitTime" to="StateMachine/Sprint/StaminaReload" method="_on_wait_time_timeout"]

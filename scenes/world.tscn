@@ -1,11 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://bxkceno7iijle"]
+[gd_scene load_steps=8 format=3 uid="uid://bxkceno7iijle"]
 
 [ext_resource type="Texture2D" uid="uid://d0esr880fkx1x" path="res://assets/prototype_texture/Dark/texture_03.png" id="1_ks1wt"]
 [ext_resource type="PackedScene" uid="uid://bqgt4hmfoj1d8" path="res://objects/player.tscn" id="1_vnx3j"]
+[ext_resource type="Texture2D" uid="uid://dva543qbj8j5y" path="res://assets/prototype_texture/Orange/texture_01.png" id="3_hse0s"]
 
 [sub_resource type="Environment" id="Environment_qtx6g"]
 background_mode = 1
 background_color = Color(0.423529, 0.670588, 0.894118, 1)
+tonemap_mode = 2
+ssao_enabled = true
+sdfgi_enabled = true
+sdfgi_energy = 0.7
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.02
+volumetric_fog_length = 500.0
+adjustment_enabled = true
+adjustment_contrast = 1.1
+adjustment_saturation = 1.35
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k6fq4"]
 albedo_texture = ExtResource("1_ks1wt")
@@ -20,6 +31,10 @@ func _process(_delta: float) -> void:
 	State: %s
 	Stamina: %s\" % [DI.player_velocity, DI.player_state, DI.stamina]
 "
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykh0r"]
+albedo_texture = ExtResource("3_hse0s")
+uv1_triplanar = true
 
 [node name="Node3D" type="Node3D"]
 
@@ -66,6 +81,7 @@ text = "--DEBUG--
 script = SubResource("GDScript_o3xxy")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.23815, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -8)
+material_override = SubResource("StandardMaterial3D_ykh0r")
 use_collision = true
-size = Vector3(7.18343, 0.178414, 3.428)
+size = Vector3(7.183, 0.49, 3.428)

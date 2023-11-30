@@ -28,13 +28,13 @@ func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("jump"):
 		change.emit(self, "jump")
 	
-	if Input.is_action_just_pressed("croach"):
-		change.emit(self, "croach")
+	if Input.is_action_just_pressed("crouch"):
+		change.emit(self, "crouch")
 
 
 func enter() -> void:
 	$"../../NormalCollision".disabled = false
-	$"../../CroachCollision".disabled = true
+	$"../../CrouchCollision".disabled = true
 	
 	if walk:
 		change.emit(self, "walk")
