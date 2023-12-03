@@ -1,17 +1,17 @@
 [gd_scene load_steps=16 format=3 uid="uid://bqgt4hmfoj1d8"]
 
-[ext_resource type="Script" path="res://scripts/state machine/states/idle.gd" id="1_7nn1v"]
+[ext_resource type="Script" path="res://scripts/state machine/states/idle/idle.gd" id="1_7nn1v"]
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_oon62"]
 [ext_resource type="Script" path="res://scripts/player/head_controller.gd" id="2_jpkjg"]
 [ext_resource type="Script" path="res://scripts/state machine/state_machine.gd" id="2_no3ry"]
-[ext_resource type="Script" path="res://scripts/state machine/states/walk.gd" id="4_y2his"]
-[ext_resource type="Script" path="res://scripts/state machine/states/jump.gd" id="5_8tynw"]
-[ext_resource type="Script" path="res://scripts/state machine/states/on_air.gd" id="7_pr0ir"]
+[ext_resource type="Script" path="res://scripts/state machine/states/move/move state/walk.gd" id="4_y2his"]
+[ext_resource type="Script" path="res://scripts/state machine/states/physics/jump.gd" id="5_8tynw"]
+[ext_resource type="Script" path="res://scripts/state machine/states/move/move state/sprint.gd" id="6_y58q8"]
+[ext_resource type="Script" path="res://scripts/state machine/states/physics/on_air.gd" id="7_pr0ir"]
 [ext_resource type="Script" path="res://scripts/player/stamina_reload.gd" id="7_ydg1k"]
-[ext_resource type="Script" path="res://scripts/state machine/states/sprint.gd" id="8_uvgns"]
-[ext_resource type="Script" path="res://scripts/state machine/states/croach.gd" id="10_gtnkd"]
-[ext_resource type="Script" path="res://scripts/state machine/states/crochwalk.gd" id="11_skpg6"]
-[ext_resource type="Script" path="res://scripts/state machine/states/slide.gd" id="12_olmfe"]
+[ext_resource type="Script" path="res://scripts/state machine/states/idle/croach.gd" id="10_gtnkd"]
+[ext_resource type="Script" path="res://scripts/state machine/states/move/move state/crochwalk.gd" id="11_7ffdi"]
+[ext_resource type="Script" path="res://scripts/state machine/states/move/move state/slide.gd" id="12_olmfe"]
 
 [sub_resource type="GDScript" id="GDScript_a8owo"]
 script/source = "extends Node
@@ -64,14 +64,27 @@ update_scale = false
 script = ExtResource("2_no3ry")
 init_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine"]
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "head_node", "normal_collision_node", "crouch_collision_node")]
 script = ExtResource("1_7nn1v")
+player = NodePath("../..")
+head_node = NodePath("../../Head")
+normal_collision_node = NodePath("../../NormalCollision")
+crouch_collision_node = NodePath("../../CrouchCollision")
 
-[node name="Walk" type="Node" parent="StateMachine"]
+[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "head_node", "normal_collision_node", "crouch_collision_node")]
 script = ExtResource("4_y2his")
+player = NodePath("../..")
+head_node = NodePath("../../Head")
+normal_collision_node = NodePath("../../NormalCollision")
+crouch_collision_node = NodePath("../../CrouchCollision")
 
-[node name="Sprint" type="Node" parent="StateMachine"]
-script = ExtResource("8_uvgns")
+[node name="Sprint" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "head_node", "normal_collision_node", "crouch_collision_node")]
+script = ExtResource("6_y58q8")
+SPRINT_SPEED = 8.0
+player = NodePath("../..")
+head_node = NodePath("../../Head")
+normal_collision_node = NodePath("../../NormalCollision")
+crouch_collision_node = NodePath("../../CrouchCollision")
 
 [node name="WaitTime" type="Timer" parent="StateMachine/Sprint"]
 wait_time = 5.0
@@ -80,22 +93,43 @@ one_shot = true
 [node name="StaminaReload" type="Node" parent="StateMachine/Sprint"]
 script = ExtResource("7_ydg1k")
 
-[node name="Jump" type="Node" parent="StateMachine"]
+[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter", "player", "head_node", "normal_collision_node", "crouch_collision_node")]
 script = ExtResource("5_8tynw")
+roof_detecter = NodePath("../../RoofDetecter")
+player = NodePath("../..")
+head_node = NodePath("../../Head")
+normal_collision_node = NodePath("../../NormalCollision")
+crouch_collision_node = NodePath("../../CrouchCollision")
 
-[node name="OnAir" type="Node" parent="StateMachine"]
+[node name="OnAir" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "head_node", "normal_collision_node", "crouch_collision_node")]
 script = ExtResource("7_pr0ir")
+player = NodePath("../..")
+head_node = NodePath("../../Head")
+normal_collision_node = NodePath("../../NormalCollision")
+crouch_collision_node = NodePath("../../CrouchCollision")
 
-[node name="Crouch" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter")]
+[node name="Crouch" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter", "player", "head_node", "normal_collision_node", "crouch_collision_node")]
 script = ExtResource("10_gtnkd")
 roof_detecter = NodePath("../../RoofDetecter")
+player = NodePath("../..")
+head_node = NodePath("../../Head")
+normal_collision_node = NodePath("../../NormalCollision")
+crouch_collision_node = NodePath("../../CrouchCollision")
 
-[node name="CrouchWalk" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter")]
-script = ExtResource("11_skpg6")
+[node name="CrouchWalk" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter", "player", "head_node", "normal_collision_node", "crouch_collision_node")]
+script = ExtResource("11_7ffdi")
 roof_detecter = NodePath("../../RoofDetecter")
+player = NodePath("../..")
+head_node = NodePath("../../Head")
+normal_collision_node = NodePath("../../NormalCollision")
+crouch_collision_node = NodePath("../../CrouchCollision")
 
-[node name="Slide" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter")]
+[node name="Slide" type="Node" parent="StateMachine" node_paths=PackedStringArray("roof_detecter", "player", "head_node", "normal_collision_node", "crouch_collision_node")]
 script = ExtResource("12_olmfe")
 roof_detecter = NodePath("../../RoofDetecter")
+player = NodePath("../..")
+head_node = NodePath("../../Head")
+normal_collision_node = NodePath("../../NormalCollision")
+crouch_collision_node = NodePath("../../CrouchCollision")
 
 [connection signal="timeout" from="StateMachine/Sprint/WaitTime" to="StateMachine/Sprint/StaminaReload" method="_on_wait_time_timeout"]

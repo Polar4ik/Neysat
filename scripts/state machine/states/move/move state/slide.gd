@@ -1,14 +1,13 @@
-extends State
+extends MoveState
 
-@onready var player: CharacterBody3D = $"../.."
 @export var roof_detecter: RayCast3D
 
 func enter() -> void:
-	$"../../NormalCollision".disabled = true
-	$"../../CrouchCollision".disabled = false
+	normal_collision_node.disabled = true
+	crouch_collision_node.disabled = false
 
 func update(_delta: float) -> void:
-	$"../../Head".position.y = lerpf($"../../Head".position.y, 0.0, 0.5)
+	head_lerp(0.0)
 	
 	
 	if floor(abs(player.velocity.x)) < 2.0 and floor(abs(player.velocity.z)) < 2.0:
@@ -20,6 +19,7 @@ func update(_delta: float) -> void:
 
 func physics_update(delta: float) -> void:
 	slide(delta)
+
 
 func slide(delta: float) -> void:
 	player.velocity.z = lerp(player.velocity.z, 0.0, delta * 0.9)

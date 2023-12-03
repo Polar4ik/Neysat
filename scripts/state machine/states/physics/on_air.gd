@@ -1,6 +1,5 @@
-extends State
+extends BasePlayerState
 
-@onready var player: CharacterBody3D = $"../.."
 const GRAVITY = 9.8
 
 func physics_update(delta) -> void:

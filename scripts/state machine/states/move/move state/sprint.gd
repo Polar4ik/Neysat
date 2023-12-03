@@ -1,14 +1,12 @@
-extends Walk
+extends MoveState
 
-var SPRINT_SPEED: float = 13.0
 
-var stamina: float = 0.0
-var MAX_STAMINA: float = 100.0
+@export var SPRINT_SPEED: float = 13.0
 
+@export var MAX_STAMINA: float = 100.0
+var stamina: float = MAX_STAMINA
 var stamina_consumption: float = 0.1
 
-func _ready() -> void:
-	stamina = MAX_STAMINA
 
 func _unhandled_input(_event: InputEvent) -> void:
 	input_vec = Input.get_vector("left", "right", "forward", "back")
@@ -23,8 +21,8 @@ func _unhandled_input(_event: InputEvent) -> void:
 		change.emit(self, "slide")
 
 func enter() -> void:
-	$"../../NormalCollision".disabled = false
-	$"../../CrouchCollision".disabled = true
+	normal_collision_node.disabled = false
+	crouch_collision_node.disabled = true
 	
 	if stamina == 0.0:
 		change.emit(self, "walk")
@@ -35,7 +33,7 @@ func enter() -> void:
 	speed = SPRINT_SPEED
 
 func update(_delta: float) -> void:
-	$"../../Head".position.y = lerpf($"../../Head".position.y, 0.5, 0.5)
+	head_lerp(0.5)
 	
 	stamina -= stamina_consumption
 	stamina = clampf(stamina, 0.0, MAX_STAMINA)
@@ -44,6 +42,10 @@ func update(_delta: float) -> void:
 		change.emit(self, "walk")
 		if $WaitTime.is_stopped():
 			$WaitTime.start()
+
+func physics_update(delta: float) -> void:
+	move(delta)
+
 
 func exit() -> void:
 	if stamina < MAX_STAMINA:

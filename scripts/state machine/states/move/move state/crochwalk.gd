@@ -1,4 +1,4 @@
-extends Walk
+extends MoveState
 
 var CROACH_SPEED: float = 1.0
 
@@ -9,8 +9,8 @@ var not_crouch: bool = false
 func enter() -> void:
 	not_crouch = false
 	
-	$"../../NormalCollision".disabled = true
-	$"../../CrouchCollision".disabled = false
+	normal_collision_node.disabled = true
+	crouch_collision_node.disabled = false
 	
 	speed = CROACH_SPEED
 
@@ -24,10 +24,13 @@ func _unhandled_input(_event: InputEvent) -> void:
 		not_crouch = true
 
 func update(_delta: float) -> void:
+	head_node.position.y = lerpf(head_node.position.y, 0.0, 0.5)
+	
 	if not_crouch and not roof_detecter.is_colliding():
 		change.emit(self, "walk")
 	
-	$"../../Head".position.y = lerpf($"../../Head".position.y, 0.0, 0.5)
-	
 	if input_vec == Vector2.ZERO:
 		change.emit(self, "crouch")
+
+func physics_update(delta) -> void:
+	move(delta)

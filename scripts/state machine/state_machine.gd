@@ -23,6 +23,9 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	curent_state.physics_update(delta)
 
+func _unhandled_input(event: InputEvent) -> void:
+	curent_state.input_key(event)
+
 func change_state(old_state, new_state_name) -> void:
 	
 	if curent_state != old_state:
