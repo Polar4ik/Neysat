@@ -11,3 +11,4 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		rotation_degrees.x += rad_to_deg(-event.relative.y * 0.003)
 		rotation_degrees.x = clamp(rotation_degrees.x, -90.0, 90.0)
+

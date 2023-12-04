@@ -15,10 +15,6 @@ run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-DI="*res://core/singleton/DebugInfo.gd"
-
 [display]
 
 window/size/viewport_width=1200
