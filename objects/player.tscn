@@ -1,28 +1,17 @@
-[gd_scene load_steps=16 format=3 uid="uid://bqgt4hmfoj1d8"]
+[gd_scene load_steps=15 format=3 uid="uid://bqgt4hmfoj1d8"]
 
-[ext_resource type="Script" path="res://scripts/state machine/states/idle/idle.gd" id="1_7nn1v"]
+[ext_resource type="Script" path="res://scripts/player/state machine/states/idle/idle.gd" id="1_7nn1v"]
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_oon62"]
 [ext_resource type="Script" path="res://scripts/player/head_controller.gd" id="2_jpkjg"]
-[ext_resource type="Script" path="res://scripts/state machine/state_machine.gd" id="2_no3ry"]
-[ext_resource type="Script" path="res://scripts/state machine/states/move/move state/walk.gd" id="4_y2his"]
-[ext_resource type="Script" path="res://scripts/state machine/states/physics/jump.gd" id="5_8tynw"]
-[ext_resource type="Script" path="res://scripts/state machine/states/move/move state/sprint.gd" id="6_y58q8"]
-[ext_resource type="Script" path="res://scripts/state machine/states/physics/on_air.gd" id="7_pr0ir"]
+[ext_resource type="Script" path="res://scripts/player/state machine/state_machine.gd" id="2_no3ry"]
+[ext_resource type="Script" path="res://scripts/player/state machine/states/move/move state/walk.gd" id="4_y2his"]
+[ext_resource type="Script" path="res://scripts/player/state machine/states/physics/jump.gd" id="5_8tynw"]
+[ext_resource type="Script" path="res://scripts/player/state machine/states/move/move state/sprint.gd" id="6_y58q8"]
+[ext_resource type="Script" path="res://scripts/player/state machine/states/physics/on_air.gd" id="7_pr0ir"]
 [ext_resource type="Script" path="res://scripts/player/stamina_reload.gd" id="7_ydg1k"]
-[ext_resource type="Script" path="res://scripts/state machine/states/idle/croach.gd" id="10_gtnkd"]
-[ext_resource type="Script" path="res://scripts/state machine/states/move/move state/crochwalk.gd" id="11_7ffdi"]
-[ext_resource type="Script" path="res://scripts/state machine/states/move/move state/slide.gd" id="12_olmfe"]
-
-[sub_resource type="GDScript" id="GDScript_a8owo"]
-script/source = "extends Node
-
-@onready var player: CharacterBody3D = $\"..\"
-
-func _process(_delta: float) -> void:
-	DI.player_velocity = player.velocity
-	DI.player_state = $\"../StateMachine\".curent_state.name
-	DI.stamina = $\"../StateMachine/Sprint\".stamina
-"
+[ext_resource type="Script" path="res://scripts/player/state machine/states/idle/croach.gd" id="10_gtnkd"]
+[ext_resource type="Script" path="res://scripts/player/state machine/states/move/move state/crochwalk.gd" id="11_7ffdi"]
+[ext_resource type="Script" path="res://scripts/player/state machine/states/move/move state/slide.gd" id="12_olmfe"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_il1up"]
 
@@ -32,9 +21,6 @@ height = 1.5
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
 script = ExtResource("1_oon62")
-
-[node name="DEBUG" type="Node" parent="."]
-script = SubResource("GDScript_a8owo")
 
 [node name="NormalCollision" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_il1up")
