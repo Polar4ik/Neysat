@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://s4yt5o52oom5"]
+
+[ext_resource type="Script" path="res://scripts/debug/add_debug_info_panel.gd" id="1_k4dv6"]
+
+[node name="AddDebugInfoPanel" type="Node" groups=["debug"]]
+script = ExtResource("1_k4dv6")

@@ -1,0 +1,60 @@
+[gd_scene load_steps=11 format=3 uid="uid://byn00ig25tocr"]
+
+[ext_resource type="Script" path="res://scripts/player_controller.gd" id="1_iethp"]
+[ext_resource type="Script" path="res://scripts/input_handller.gd" id="1_vjpci"]
+[ext_resource type="Script" path="res://scripts/FSM/state_machine.gd" id="2_3di04"]
+[ext_resource type="PackedScene" uid="uid://s4yt5o52oom5" path="res://components/debug/debuger_component.tscn" id="2_ijffh"]
+[ext_resource type="Script" path="res://scripts/PlayerFSM/states/idle_state.gd" id="3_27lww"]
+[ext_resource type="Script" path="res://scripts/head_controller.gd" id="3_gik7f"]
+[ext_resource type="Script" path="res://scripts/PlayerFSM/states/walk_state.gd" id="4_h1qgl"]
+[ext_resource type="Script" path="res://scripts/PlayerFSM/states/air_state.gd" id="8_krutg"]
+[ext_resource type="Script" path="res://scripts/PlayerFSM/states/jump_state.gd" id="9_5qet2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_32cgx"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_iethp")
+
+[node name="AddDebugInfoPanel" parent="." instance=ExtResource("2_ijffh")]
+proops = Array[String](["velocity", "is_on_floor", "rotation_degrees"])
+
+[node name="NormalCollision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_32cgx")
+
+[node name="InputHandller" type="Node" parent="."]
+script = ExtResource("1_vjpci")
+
+[node name="AddDebugInfoPanel" parent="InputHandller" instance=ExtResource("2_ijffh")]
+proops = Array[String](["walk_vector"])
+
+[node name="Head" type="Marker3D" parent="." node_paths=PackedStringArray("player", "camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("3_gik7f")
+player = NodePath("..")
+camera = NodePath("MainCamera")
+
+[node name="MainCamera" type="Camera3D" parent="Head"]
+
+[node name="PlayerFSM" type="Node" parent="." node_paths=PackedStringArray("init_state")]
+script = ExtResource("2_3di04")
+init_state = NodePath("Idle")
+
+[node name="AddDebugInfoPanel" parent="PlayerFSM" instance=ExtResource("2_ijffh")]
+proops = Array[String](["curent_state"])
+
+[node name="Idle" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
+script = ExtResource("3_27lww")
+player = NodePath("../..")
+
+[node name="Walk" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
+script = ExtResource("4_h1qgl")
+MAX_SPEED = 2.0
+player = NodePath("../..")
+
+[node name="Air" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
+script = ExtResource("8_krutg")
+player = NodePath("../..")
+
+[node name="Jump" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
+script = ExtResource("9_5qet2")
+player = NodePath("../..")
