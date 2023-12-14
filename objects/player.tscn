@@ -1,15 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://byn00ig25tocr"]
+[gd_scene load_steps=17 format=3 uid="uid://byn00ig25tocr"]
 
 [ext_resource type="Script" path="res://scripts/player_controller.gd" id="1_iethp"]
 [ext_resource type="Script" path="res://scripts/input_handller.gd" id="1_vjpci"]
 [ext_resource type="Script" path="res://scripts/FSM/state_machine.gd" id="2_3di04"]
 [ext_resource type="PackedScene" uid="uid://s4yt5o52oom5" path="res://components/debug/debuger_component.tscn" id="2_ijffh"]
-[ext_resource type="Script" path="res://scripts/PlayerFSM/states/idle_state.gd" id="3_27lww"]
 [ext_resource type="Script" path="res://scripts/head_controller.gd" id="3_gik7f"]
-[ext_resource type="Script" path="res://scripts/PlayerFSM/states/walk_state.gd" id="4_h1qgl"]
-[ext_resource type="Script" path="res://scripts/PlayerFSM/states/air_state.gd" id="8_krutg"]
-[ext_resource type="Script" path="res://scripts/PlayerFSM/states/jump_state.gd" id="9_5qet2"]
+[ext_resource type="Script" path="res://scripts/playerFSM/states/idle_state.gd" id="6_0okx5"]
+[ext_resource type="Script" path="res://scripts/playerFSM/states/walk_state.gd" id="7_huxti"]
+[ext_resource type="Script" path="res://scripts/playerFSM/states/air_state.gd" id="8_vaolr"]
+[ext_resource type="Script" path="res://scripts/playerFSM/states/jump_state.gd" id="9_2uvrf"]
 [ext_resource type="PackedScene" uid="uid://bpua6lw32s30h" path="res://objects/weapon/pistol.tscn" id="10_57obl"]
+[ext_resource type="PackedScene" uid="uid://slabk60av7ko" path="res://components/health_and_damage/damage_area.tscn" id="11_ghawa"]
+[ext_resource type="PackedScene" uid="uid://88gs7ubtyl2m" path="res://components/health_and_damage/health_component.tscn" id="11_q81en"]
+[ext_resource type="Script" path="res://scripts/health_and_damage/health_component.gd" id="12_rnokm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_32cgx"]
 
@@ -30,7 +33,10 @@ func set_parent() -> void:
 	remote_node.reparent(self)
 "
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_n0qdg"]
+
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 4
 script = ExtResource("1_iethp")
 
 [node name="AddDebugInfoPanel" parent="." instance=ExtResource("2_ijffh")]
@@ -71,22 +77,32 @@ init_state = NodePath("Idle")
 proops = Array[String](["curent_state"])
 
 [node name="Idle" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
-script = ExtResource("3_27lww")
+script = ExtResource("6_0okx5")
 player = NodePath("../..")
 
 [node name="Walk" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
-script = ExtResource("4_h1qgl")
+script = ExtResource("7_huxti")
 MAX_SPEED = 2.0
 player = NodePath("../..")
 
 [node name="Air" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
-script = ExtResource("8_krutg")
+script = ExtResource("8_vaolr")
 player = NodePath("../..")
 
 [node name="Jump" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
-script = ExtResource("9_5qet2")
+script = ExtResource("9_2uvrf")
 player = NodePath("../..")
 
 [node name="Pistol" parent="." node_paths=PackedStringArray("hit_ray_cast") instance=ExtResource("10_57obl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.673608, 0.295592, -1)
 hit_ray_cast = NodePath("../Head/MainCamera/HitRayCast")
+
+[node name="HealthComponent" parent="." instance=ExtResource("11_q81en")]
+script = ExtResource("12_rnokm")
+
+[node name="HeadArea" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("11_ghawa")]
+damage = 5.0
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HeadArea"]
+shape = SubResource("SphereShape3D_n0qdg")

@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://cl2qf2nj6vg7u"]
+[gd_scene load_steps=7 format=3 uid="uid://cl2qf2nj6vg7u"]
 
 [ext_resource type="PackedScene" uid="uid://grv62xnqypb4" path="res://scene/env/env.tscn" id="1_7v7ho"]
 [ext_resource type="PackedScene" uid="uid://byn00ig25tocr" path="res://objects/player.tscn" id="2_11eso"]
 [ext_resource type="PackedScene" uid="uid://g5h5ebb8udxf" path="res://objects/debug/dev_info.tscn" id="3_pjmso"]
+[ext_resource type="PackedScene" uid="uid://slabk60av7ko" path="res://components/health_and_damage/damage_area.tscn" id="4_w0u76"]
+[ext_resource type="PackedScene" uid="uid://88gs7ubtyl2m" path="res://components/health_and_damage/health_component.tscn" id="5_5c40s"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3qwwh"]
+radius = 0.997816
 
 [node name="Game" type="Node"]
 
@@ -27,3 +32,13 @@ size = Vector3(5, 0.2, 3)
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
 transform = Transform3D(0.866026, -0.5, 0, 0.5, 0.866026, 0, 0, 0, 1, -4.5359, -0.399999, 0)
 size = Vector3(5, 0.2, 3)
+
+[node name="DamageArea" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_w0u76")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 4.4)
+damage = 50.0
+health_component = NodePath("HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea"]
+shape = SubResource("SphereShape3D_3qwwh")
+
+[node name="HealthComponent" parent="DamageArea" instance=ExtResource("5_5c40s")]
