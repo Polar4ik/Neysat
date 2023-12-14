@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://byn00ig25tocr"]
+[gd_scene load_steps=13 format=3 uid="uid://byn00ig25tocr"]
 
 [ext_resource type="Script" path="res://scripts/player_controller.gd" id="1_iethp"]
 [ext_resource type="Script" path="res://scripts/input_handller.gd" id="1_vjpci"]
@@ -9,8 +9,26 @@
 [ext_resource type="Script" path="res://scripts/PlayerFSM/states/walk_state.gd" id="4_h1qgl"]
 [ext_resource type="Script" path="res://scripts/PlayerFSM/states/air_state.gd" id="8_krutg"]
 [ext_resource type="Script" path="res://scripts/PlayerFSM/states/jump_state.gd" id="9_5qet2"]
+[ext_resource type="PackedScene" uid="uid://bpua6lw32s30h" path="res://objects/weapon/pistol.tscn" id="10_57obl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_32cgx"]
+
+[sub_resource type="GDScript" id="GDScript_sey8v"]
+script/source = "extends Marker3D
+
+@export var remote_node: Node3D
+
+
+
+func _process(_delta: float) -> void:
+	if find_child(remote_node.name) == null:
+		set_parent()
+
+
+
+func set_parent() -> void:
+	remote_node.reparent(self)
+"
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_iethp")
@@ -35,6 +53,16 @@ camera = NodePath("MainCamera")
 
 [node name="MainCamera" type="Camera3D" parent="Head"]
 
+[node name="ArcholNode" type="Marker3D" parent="Head/MainCamera" node_paths=PackedStringArray("remote_node")]
+script = SubResource("GDScript_sey8v")
+remote_node = NodePath("../../../Pistol")
+
+[node name="HitRayCast" type="RayCast3D" parent="Head/MainCamera"]
+target_position = Vector3(0, 0, -20)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
 [node name="PlayerFSM" type="Node" parent="." node_paths=PackedStringArray("init_state")]
 script = ExtResource("2_3di04")
 init_state = NodePath("Idle")
@@ -58,3 +86,7 @@ player = NodePath("../..")
 [node name="Jump" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
 script = ExtResource("9_5qet2")
 player = NodePath("../..")
+
+[node name="Pistol" parent="." node_paths=PackedStringArray("hit_ray_cast") instance=ExtResource("10_57obl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.673608, 0.295592, -1)
+hit_ray_cast = NodePath("../Head/MainCamera/HitRayCast")

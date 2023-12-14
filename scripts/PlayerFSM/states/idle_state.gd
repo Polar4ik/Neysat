@@ -1,6 +1,6 @@
 extends PlayerState
 
-@export var friction := 5
+@export var friction := 6
 
 func _ready() -> void:
 	EventManager.walk_pressed.connect(func(i_p):

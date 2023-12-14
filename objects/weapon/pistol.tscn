@@ -1,0 +1,89 @@
+[gd_scene load_steps=5 format=3 uid="uid://bpua6lw32s30h"]
+
+[sub_resource type="GDScript" id="GDScript_d7btl"]
+script/source = "extends Node3D
+
+@export var hit_ray_cast: RayCast3D
+
+var can_shoot := true
+
+func _ready() -> void:
+	EventManager.shoot.connect(shoot)
+
+
+func shoot() -> void:
+	if can_shoot == false or $AnimationPlayer.is_playing():
+		return
+	
+	$AnimationPlayer.play(\"shoot\")
+	
+	can_shoot = false
+	
+	$FireDelay.start()
+
+
+func _on_fire_delay_timeout() -> void:
+	can_shoot = true
+"
+
+[sub_resource type="Animation" id="Animation_yigyd"]
+resource_name = "shoot"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Marker3D:rotation:z")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.261799, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.5)
+}
+
+[sub_resource type="Animation" id="Animation_b2n8c"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Marker3D:rotation:z")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u8rip"]
+_data = {
+"RESET": SubResource("Animation_b2n8c"),
+"shoot": SubResource("Animation_yigyd")
+}
+
+[node name="Pistol" type="Node3D"]
+script = SubResource("GDScript_d7btl")
+
+[node name="Model" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="Marker3D" type="Marker3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26, -0.09, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Model/Marker3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.26, 0.09, 0)
+size = Vector3(1.42212, 0.321289, 0.272461)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Model/Marker3D"]
+transform = Transform3D(0.491284, -0.0929534, 0, 0.0929534, 0.491284, 0, 0, 0, 0.5, 0.0156301, -0.123634, 0)
+size = Vector3(0.242188, 0.696289, 0.19751)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_u8rip")
+}
+
+[node name="FireDelay" type="Timer" parent="."]
+wait_time = 0.3
+
+[connection signal="timeout" from="FireDelay" to="." method="_on_fire_delay_timeout"]
