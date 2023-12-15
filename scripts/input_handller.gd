@@ -9,7 +9,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	jump_input()
 	
 	shoot_input()
-	
+	reload_input()
+
 
 
 
@@ -24,16 +25,20 @@ func walk_input() -> void:
 	elif input_vec == Vector2.ZERO:
 		EventManager.walk_pressed.emit(false)
 
-
 func head_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		EventManager.head_mouse_rotation.emit(event.relative)
+
+func jump_input() -> void:
+	if Input.is_action_just_pressed("jump"):
+		EventManager.jump.emit()
 
 
 func shoot_input() -> void:
 	if Input.is_action_just_pressed("shoot"):
 		EventManager.shoot.emit()
 
-func jump_input() -> void:
-	if Input.is_action_just_pressed("jump"):
-		EventManager.jump.emit()
+func reload_input() -> void:
+	if Input.is_action_just_pressed("reload"):
+		EventManager.reload.emit()
+

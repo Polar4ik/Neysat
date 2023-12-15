@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cl2qf2nj6vg7u"]
+[gd_scene load_steps=8 format=3 uid="uid://cl2qf2nj6vg7u"]
 
 [ext_resource type="PackedScene" uid="uid://grv62xnqypb4" path="res://scene/env/env.tscn" id="1_7v7ho"]
 [ext_resource type="PackedScene" uid="uid://byn00ig25tocr" path="res://objects/player.tscn" id="2_11eso"]
 [ext_resource type="PackedScene" uid="uid://g5h5ebb8udxf" path="res://objects/debug/dev_info.tscn" id="3_pjmso"]
+[ext_resource type="Texture2D" uid="uid://e6ycnj22yb7d" path="res://assets/ui/crosspair.png" id="4_h00a1"]
 [ext_resource type="PackedScene" uid="uid://slabk60av7ko" path="res://components/health_and_damage/damage_area.tscn" id="4_w0u76"]
 [ext_resource type="PackedScene" uid="uid://88gs7ubtyl2m" path="res://components/health_and_damage/health_component.tscn" id="5_5c40s"]
 
@@ -19,6 +20,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="DevInfo" parent="UI" instance=ExtResource("3_pjmso")]
+
+[node name="Control" type="Control" parent="UI"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_h00a1")
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 transform = Transform3D(1, -2.08616e-07, 0, 2.08616e-07, 1, 0, 0, 0, 1, 2, 1.55, -7)

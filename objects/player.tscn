@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://byn00ig25tocr"]
+[gd_scene load_steps=14 format=3 uid="uid://byn00ig25tocr"]
 
 [ext_resource type="Script" path="res://scripts/player_controller.gd" id="1_iethp"]
 [ext_resource type="Script" path="res://scripts/input_handller.gd" id="1_vjpci"]
@@ -9,29 +9,10 @@
 [ext_resource type="Script" path="res://scripts/playerFSM/states/walk_state.gd" id="7_huxti"]
 [ext_resource type="Script" path="res://scripts/playerFSM/states/air_state.gd" id="8_vaolr"]
 [ext_resource type="Script" path="res://scripts/playerFSM/states/jump_state.gd" id="9_2uvrf"]
-[ext_resource type="PackedScene" uid="uid://bpua6lw32s30h" path="res://objects/weapon/pistol.tscn" id="10_57obl"]
 [ext_resource type="PackedScene" uid="uid://slabk60av7ko" path="res://components/health_and_damage/damage_area.tscn" id="11_ghawa"]
 [ext_resource type="PackedScene" uid="uid://88gs7ubtyl2m" path="res://components/health_and_damage/health_component.tscn" id="11_q81en"]
-[ext_resource type="Script" path="res://scripts/health_and_damage/health_component.gd" id="12_rnokm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_32cgx"]
-
-[sub_resource type="GDScript" id="GDScript_sey8v"]
-script/source = "extends Marker3D
-
-@export var remote_node: Node3D
-
-
-
-func _process(_delta: float) -> void:
-	if find_child(remote_node.name) == null:
-		set_parent()
-
-
-
-func set_parent() -> void:
-	remote_node.reparent(self)
-"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_n0qdg"]
 
@@ -51,23 +32,20 @@ script = ExtResource("1_vjpci")
 [node name="AddDebugInfoPanel" parent="InputHandller" instance=ExtResource("2_ijffh")]
 proops = Array[String](["walk_vector"])
 
-[node name="Head" type="Marker3D" parent="." node_paths=PackedStringArray("player", "camera")]
+[node name="Head" type="Marker3D" parent="." node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("3_gik7f")
 player = NodePath("..")
-camera = NodePath("MainCamera")
 
 [node name="MainCamera" type="Camera3D" parent="Head"]
-
-[node name="ArcholNode" type="Marker3D" parent="Head/MainCamera" node_paths=PackedStringArray("remote_node")]
-script = SubResource("GDScript_sey8v")
-remote_node = NodePath("../../../Pistol")
 
 [node name="HitRayCast" type="RayCast3D" parent="Head/MainCamera"]
 target_position = Vector3(0, 0, -20)
 collision_mask = 2
 collide_with_areas = true
 collide_with_bodies = false
+
+[node name="ArcholNode" type="Marker3D" parent="Head"]
 
 [node name="PlayerFSM" type="Node" parent="." node_paths=PackedStringArray("init_state")]
 script = ExtResource("2_3di04")
@@ -93,12 +71,7 @@ player = NodePath("../..")
 script = ExtResource("9_2uvrf")
 player = NodePath("../..")
 
-[node name="Pistol" parent="." node_paths=PackedStringArray("hit_ray_cast") instance=ExtResource("10_57obl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.673608, 0.295592, -1)
-hit_ray_cast = NodePath("../Head/MainCamera/HitRayCast")
-
 [node name="HealthComponent" parent="." instance=ExtResource("11_q81en")]
-script = ExtResource("12_rnokm")
 
 [node name="HeadArea" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("11_ghawa")]
 damage = 5.0

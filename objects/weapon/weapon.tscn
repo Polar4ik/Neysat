@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://rnu3y7ns3bhj"]
+
+[node name="Weapon" type="Node3D"]
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Model"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Model/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0591797, 0, 0)
+size = Vector3(1.7, 0.445557, 0.281494)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Model/CSGCombiner3D"]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0.705521, -0.00321625, 0)
+size = Vector3(0.348828, 0.252747, 0.281494)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Model/CSGCombiner3D"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.555647, -0.470187, 0)
+size = Vector3(0.328613, 1.01331, 0.243164)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Model/CSGCombiner3D"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.634565, -0.764713, 0)
+size = Vector3(0.226563, 0.698761, 0.128906)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Model/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.361173, 0.229586, 0)
+size = Vector3(0.208984, 0.0466309, 0.0703125)

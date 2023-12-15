@@ -10,3 +10,4 @@ signal jump
 signal head_mouse_rotation(vector: Vector2)
 
 signal shoot
+signal reload

@@ -1,6 +1,8 @@
 extends Node
 class_name HealthComponent
 
+signal player_die
+#signal health_change(health: float)
 
 @export var MAX_HEALTH: float = 100.0
 var health = 0.0:
@@ -8,7 +10,6 @@ var health = 0.0:
 		health = value
 		health = clamp(health, 0.0, MAX_HEALTH)
 
-#signal health_change(health: float)
 
 func _ready() -> void:
 	health = MAX_HEALTH
@@ -22,5 +23,6 @@ func take_damage(damage: float) -> void:
 
 
 func die() -> void:
+	player_die.emit()
 	print("DIE") #Помянем 🫡
 

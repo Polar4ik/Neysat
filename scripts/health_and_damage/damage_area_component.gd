@@ -1,4 +1,5 @@
 extends Area3D
+class_name DamageArea
 
 @export var damage: float
 @export var health_component: HealthComponent
