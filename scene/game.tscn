@@ -21,7 +21,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
 
 [node name="DevInfo" parent="UI" instance=ExtResource("3_pjmso")]
 
-[node name="Control" type="Control" parent="UI"]
+[node name="UI" type="Control" parent="UI"]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -31,7 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="TextureRect" type="TextureRect" parent="UI/Control"]
+[node name="TextureRect" type="TextureRect" parent="UI/UI"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
