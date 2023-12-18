@@ -1,8 +1,107 @@
-[gd_scene load_steps=4 format=3 uid="uid://rnu3y7ns3bhj"]
+[gd_scene load_steps=11 format=3 uid="uid://rnu3y7ns3bhj"]
 
 [ext_resource type="Script" path="res://scripts/weapon/base_weapon.gd" id="1_6d4p3"]
 [ext_resource type="Script" path="res://scripts/weapon/clip_component.gd" id="2_rd0k7"]
 [ext_resource type="PackedScene" uid="uid://s4yt5o52oom5" path="res://components/debug/debuger_component.tscn" id="3_2m2oq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6isoy"]
+size = Vector3(0.57, 0.18, 0.14)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cfl3y"]
+size = Vector3(0.305, 0.14, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_af6v5"]
+size = Vector3(0.075, 0.185, 0.05)
+
+[sub_resource type="Animation" id="Animation_cp0fm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/MeshInstance3D3:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.225113, -0.202421, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4yeqb"]
+resource_name = "reload"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/MeshInstance3D3:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.225113, -0.202421, 0), Vector3(0.362607, -0.40721, 0), Vector3(0.362607, -0.40721, 0), Vector3(0.225113, -0.202421, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 1.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1.5708, 0, 0), Vector3(-1.5708, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_w511e"]
+resource_name = "shoot"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.2, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t0207"]
+_data = {
+"RESET": SubResource("Animation_cp0fm"),
+"reload": SubResource("Animation_4yeqb"),
+"shoot": SubResource("Animation_w511e")
+}
 
 [node name="Weapon" type="Node3D" node_paths=PackedStringArray("climp_component")]
 script = ExtResource("1_6d4p3")
@@ -13,33 +112,26 @@ proops = Array[String](["can_shoot"])
 
 [node name="Model" type="Node3D" parent="."]
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Model"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("BoxMesh_6isoy")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Model/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0591797, 0, 0)
-size = Vector3(1.7, 0.445557, 0.281494)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(0.538271, 0.842772, 0, -0.842772, 0.538271, 0, 0, 0, 1, 0.181307, -0.133458, 0)
+mesh = SubResource("BoxMesh_cfl3y")
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="Model/CSGCombiner3D"]
-transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0.705521, -0.00321625, 0)
-size = Vector3(0.348828, 0.252747, 0.281494)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="Model/CSGCombiner3D"]
-transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.555647, -0.470187, 0)
-size = Vector3(0.328613, 1.01331, 0.243164)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="Model/CSGCombiner3D"]
-transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.634565, -0.764713, 0)
-size = Vector3(0.226563, 0.698761, 0.128906)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="Model/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.361173, 0.229586, 0)
-size = Vector3(0.208984, 0.0466309, 0.0703125)
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(0.830236, -0.557412, 0, 0.557412, 0.830236, 0, 0, 0, 1, 0.225113, -0.202421, 0)
+mesh = SubResource("BoxMesh_af6v5")
 
 [node name="ClimpComponent" type="Node" parent="." node_paths=PackedStringArray("reload_timer")]
 script = ExtResource("2_rd0k7")
 climp_count = 2
-climp_ammo_count = Array[int]([1, 3])
+climp_ammo_count = Array[int]([32, 32])
 reload_timer = NodePath("../ReloadTime")
+
+[node name="AddDebugInfoPanel" parent="ClimpComponent" instance=ExtResource("3_2m2oq")]
+proops = Array[String](["climp_ammo_count", "select_climp_idx"])
+top_level = false
 
 [node name="ShootDelay" type="Timer" parent="."]
 wait_time = 0.2
@@ -48,6 +140,11 @@ one_shot = true
 [node name="ReloadTime" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_t0207")
+}
 
 [connection signal="timeout" from="ShootDelay" to="." method="_on_shoot_delay_timeout"]
 [connection signal="timeout" from="ReloadTime" to="ClimpComponent" method="_on_reload_time_timeout"]

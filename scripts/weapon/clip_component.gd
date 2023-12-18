@@ -20,8 +20,11 @@ func get_ammo_count() -> int:
 
 func shoot_ammo(value: int) -> void:
 	climp_ammo_count[select_climp_idx] -= value
-	if get_ammo_count() <= 0:
-		no_ammo.emit()
+	climp_ammo_count[select_climp_idx] = clamp(climp_ammo_count[select_climp_idx], 0, INF)
+
+
+func can_shoot() -> bool:
+	return climp_ammo_count[select_climp_idx] > 0
 
 
 func reload() -> void:
@@ -33,6 +36,3 @@ func _on_reload_time_timeout() -> void:
 		select_climp_idx += 1
 	elif select_climp_idx == climp_count - 1:
 		select_climp_idx = 0
-	
-	is_reload.emit()
-	print(select_climp_idx)

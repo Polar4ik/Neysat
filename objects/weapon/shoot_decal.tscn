@@ -1,13 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxdi4rslrh5r4"]
 
 [sub_resource type="Gradient" id="Gradient_8whca"]
-offsets = PackedFloat32Array(0.471831, 1)
+offsets = PackedFloat32Array(0.428571, 1)
 colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_m7t5d"]
 gradient = SubResource("Gradient_8whca")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
 
 [node name="ShootDecal" type="Decal"]
 size = Vector3(0.1, 0.1, 0.1)
