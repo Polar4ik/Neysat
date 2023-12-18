@@ -47,7 +47,7 @@ grow_vertical = 2
 texture = ExtResource("4_h00a1")
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
-transform = Transform3D(1, -2.08616e-07, 0, 2.08616e-07, 1, 0, 0, 0, 1, 2, 1.55, -7)
+transform = Transform3D(1, -2.08616e-07, 0, 2.08616e-07, 1, 0, 0, 0, 1, 2, 1.25, -7)
 use_collision = true
 collision_mask = 3
 
@@ -57,6 +57,15 @@ size = Vector3(5, 0.2, 3)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
 transform = Transform3D(0.866026, -0.5, 0, 0.5, 0.866026, 0, 0, 0, 1, -4.5359, -0.399999, 0)
+size = Vector3(5, 0.2, 3)
+
+[node name="CSGCombiner3D2" type="CSGCombiner3D" parent="."]
+transform = Transform3D(1, -2.08616e-07, 0, 2.08616e-07, 1, 0, 0, 0, 1, 2, 1.55, 2)
+use_collision = true
+collision_mask = 3
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D2"]
+transform = Transform3D(1, -2.08616e-07, 2.08616e-07, -2.08616e-07, -4.37113e-08, 1, -2.08616e-07, -1, -4.37114e-08, 0, 0, 0)
 size = Vector3(5, 0.2, 3)
 
 [node name="DamageArea" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_w0u76")]

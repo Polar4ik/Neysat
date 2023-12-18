@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://byn00ig25tocr"]
+[gd_scene load_steps=15 format=3 uid="uid://byn00ig25tocr"]
 
-[ext_resource type="Script" path="res://scripts/player_controller.gd" id="1_iethp"]
-[ext_resource type="Script" path="res://scripts/input_handller.gd" id="1_vjpci"]
+[ext_resource type="Script" path="res://scripts/controllers/player_controller.gd" id="1_iethp"]
+[ext_resource type="Script" path="res://scripts/controllers/input_handller.gd" id="1_vjpci"]
 [ext_resource type="Script" path="res://scripts/FSM/state_machine.gd" id="2_3di04"]
 [ext_resource type="PackedScene" uid="uid://s4yt5o52oom5" path="res://components/debug/debuger_component.tscn" id="2_ijffh"]
-[ext_resource type="Script" path="res://scripts/head_controller.gd" id="3_gik7f"]
+[ext_resource type="Script" path="res://scripts/controllers/head_controller.gd" id="3_gik7f"]
+[ext_resource type="PackedScene" uid="uid://rnu3y7ns3bhj" path="res://objects/weapon/weapon.tscn" id="5_mknjf"]
 [ext_resource type="Script" path="res://scripts/playerFSM/states/idle_state.gd" id="6_0okx5"]
 [ext_resource type="Script" path="res://scripts/playerFSM/states/walk_state.gd" id="7_huxti"]
 [ext_resource type="Script" path="res://scripts/playerFSM/states/air_state.gd" id="8_vaolr"]
@@ -31,6 +32,7 @@ script = ExtResource("1_vjpci")
 
 [node name="AddDebugInfoPanel" parent="InputHandller" instance=ExtResource("2_ijffh")]
 proops = Array[String](["walk_vector"])
+top_level = false
 
 [node name="Head" type="Marker3D" parent="." node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -41,11 +43,15 @@ player = NodePath("..")
 
 [node name="HitRayCast" type="RayCast3D" parent="Head/MainCamera"]
 target_position = Vector3(0, 0, -20)
-collision_mask = 2
+collision_mask = 3
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="ArcholNode" type="Marker3D" parent="Head"]
+
+[node name="Weapon" parent="Head/ArcholNode" node_paths=PackedStringArray("ray_cast", "except_area") instance=ExtResource("5_mknjf")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.536236, 0, -2)
+ray_cast = NodePath("../../MainCamera/HitRayCast")
+except_area = [NodePath("../../../HeadArea")]
 
 [node name="PlayerFSM" type="Node" parent="." node_paths=PackedStringArray("init_state")]
 script = ExtResource("2_3di04")
@@ -53,6 +59,7 @@ init_state = NodePath("Idle")
 
 [node name="AddDebugInfoPanel" parent="PlayerFSM" instance=ExtResource("2_ijffh")]
 proops = Array[String](["curent_state"])
+top_level = false
 
 [node name="Idle" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
 script = ExtResource("6_0okx5")

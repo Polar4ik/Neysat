@@ -1,6 +1,7 @@
 extends Node
 
 @export var proops: Array[String]
+@export var top_level: bool = true
 
 var proops_value: Array[String]
 
