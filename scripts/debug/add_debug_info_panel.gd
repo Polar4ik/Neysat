@@ -5,8 +5,13 @@ extends Node
 
 var proops_value: Array[String]
 
+var main_node: Node
+
 func _ready() -> void:
 	proops_value.resize(proops.size())
+
+func _enter_tree() -> void:
+	main_node = get_owner()
 
 func _process(_delta: float) -> void:
 	var i := 0

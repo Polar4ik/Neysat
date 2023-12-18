@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://rnu3y7ns3bhj"]
+[gd_scene load_steps=4 format=3 uid="uid://rnu3y7ns3bhj"]
 
 [ext_resource type="Script" path="res://scripts/weapon/base_weapon.gd" id="1_6d4p3"]
 [ext_resource type="Script" path="res://scripts/weapon/clip_component.gd" id="2_rd0k7"]
+[ext_resource type="PackedScene" uid="uid://s4yt5o52oom5" path="res://components/debug/debuger_component.tscn" id="3_2m2oq"]
 
 [node name="Weapon" type="Node3D" node_paths=PackedStringArray("climp_component")]
 script = ExtResource("1_6d4p3")
 climp_component = NodePath("ClimpComponent")
+
+[node name="AddDebugInfoPanel" parent="." instance=ExtResource("3_2m2oq")]
+proops = Array[String](["can_shoot"])
 
 [node name="Model" type="Node3D" parent="."]
 
