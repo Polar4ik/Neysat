@@ -74,6 +74,10 @@ change_visible_dev_menu={
 3d_physics/layer_2="DamageArea"
 3d_physics/layer_3="Players"
 
+[physics]
+
+3d/physics_engine="JoltPhysics3D"
+
 [rendering]
 
 renderer/rendering_method.mobile="gl_compatibility"

@@ -4,6 +4,8 @@ class_name ClimpComponent
 signal is_reload
 signal no_ammo
 
+@export var climp_picked_up: PackedScene
+
 @export_category("Climp")
 @export var climp_count := 0
 @export var climp_ammo_count: Array[int]
@@ -29,6 +31,9 @@ func can_shoot() -> bool:
 
 func reload() -> void:
 	reload_timer.start()
+
+func drop() -> void:
+	pass
 
 
 func _on_reload_time_timeout() -> void:
