@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://g5h5ebb8udxf"]
 
-[ext_resource type="Script" path="res://scripts/debug/debugers_parameter_container.gd" id="1_gs2wf"]
+[ext_resource type="Script" path="res://scripts/debug/debuger_container.gd" id="1_gs2wf"]
 
 [sub_resource type="GDScript" id="GDScript_puw6b"]
 script/source = "extends Control

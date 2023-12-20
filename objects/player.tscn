@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://scripts/controllers/player_controller.gd" id="1_iethp"]
 [ext_resource type="Script" path="res://scripts/controllers/input_handller.gd" id="1_vjpci"]
-[ext_resource type="Script" path="res://scripts/FSM/state_machine.gd" id="2_3di04"]
+[ext_resource type="Script" path="res://scripts/state_machines/FSM/state_machine.gd" id="2_3di04"]
 [ext_resource type="PackedScene" uid="uid://s4yt5o52oom5" path="res://components/debug/debuger_component.tscn" id="2_ijffh"]
 [ext_resource type="Script" path="res://scripts/controllers/head_controller.gd" id="3_gik7f"]
-[ext_resource type="Script" path="res://scripts/playerFSM/states/idle_state.gd" id="6_0okx5"]
-[ext_resource type="Script" path="res://scripts/playerFSM/states/walk_state.gd" id="7_huxti"]
-[ext_resource type="Script" path="res://scripts/playerFSM/states/air_state.gd" id="8_vaolr"]
-[ext_resource type="Script" path="res://scripts/playerFSM/states/jump_state.gd" id="9_2uvrf"]
+[ext_resource type="Script" path="res://scripts/state_machines/playerFSM/states/idle_state.gd" id="6_0okx5"]
+[ext_resource type="Script" path="res://scripts/state_machines/playerFSM/states/walk_state.gd" id="7_huxti"]
+[ext_resource type="Script" path="res://scripts/state_machines/playerFSM/states/air_state.gd" id="8_vaolr"]
+[ext_resource type="Script" path="res://scripts/state_machines/playerFSM/states/jump_state.gd" id="9_2uvrf"]
 [ext_resource type="PackedScene" uid="uid://slabk60av7ko" path="res://components/health_and_damage/damage_area.tscn" id="11_ghawa"]
 [ext_resource type="PackedScene" uid="uid://88gs7ubtyl2m" path="res://components/health_and_damage/health_component.tscn" id="11_q81en"]
 
