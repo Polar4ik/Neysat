@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://daye4wv2imhtj"]
-
-[ext_resource type="Script" path="res://scripts/picked_object/picked_object.gd" id="1_ivjsk"]
-
-[node name="PickedUp" type="Marker3D"]
-script = ExtResource("1_ivjsk")

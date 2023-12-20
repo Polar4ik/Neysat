@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://rnu3y7ns3bhj"]
+[gd_scene load_steps=17 format=3 uid="uid://rnu3y7ns3bhj"]
 
-[ext_resource type="Script" path="res://scripts/weapon/base_weapon.gd" id="1_6d4p3"]
-[ext_resource type="Script" path="res://scripts/weapon/clip_component.gd" id="2_rd0k7"]
-[ext_resource type="PackedScene" uid="uid://s4yt5o52oom5" path="res://components/debug/debuger_component.tscn" id="3_2m2oq"]
-[ext_resource type="PackedScene" uid="uid://c67vdtj71mdot" path="res://components/picked_up/pistol_climp_picked_up.tscn" id="4_feaq6"]
+[ext_resource type="Script" path="res://scripts/weapon/base_weapon.gd" id="1_d3uld"]
+[ext_resource type="PackedScene" uid="uid://s4yt5o52oom5" path="res://components/debug/debuger_component.tscn" id="2_p1jho"]
+[ext_resource type="Script" path="res://scripts/weapon/clip_component.gd" id="3_pqyov"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_6isoy"]
 size = Vector3(0.57, 0.18, 0.14)
@@ -13,6 +12,58 @@ size = Vector3(0.305, 0.14, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_af6v5"]
 size = Vector3(0.075, 0.185, 0.05)
+
+[sub_resource type="GDScript" id="GDScript_nmvcn"]
+script/source = "extends Marker3D
+
+signal picked
+
+
+
+"
+
+[sub_resource type="PackedScene" id="PackedScene_8sop3"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("PickedUp", "Marker3D", "script"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 1, 2, 0, 0),
+"variants": [SubResource("GDScript_nmvcn")],
+"version": 3
+}
+
+[sub_resource type="GDScript" id="GDScript_g5q34"]
+script/source = "extends ItemResource
+class_name ClimpResource
+
+@export var climp_ammo_count: int = 32
+
+"
+
+[sub_resource type="Resource" id="Resource_2qegc"]
+script = SubResource("GDScript_g5q34")
+climp_ammo_count = 32
+item_name = "Pistol Climp"
+
+[sub_resource type="BoxMesh" id="BoxMesh_f3jv1"]
+size = Vector3(0.325, 0.125, 1)
+
+[sub_resource type="PackedScene" id="PackedScene_f3wkd"]
+_bundled = {
+"base_scene": 0,
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("PistolClimpPickedUp", "picked_item_resource", "Model", "Node3D", "Base", "MeshInstance3D", "mesh"),
+"node_count": 3,
+"node_paths": [NodePath("."), NodePath("./Model")],
+"nodes": PackedInt32Array(-1, -1, 2147483647, 0, -1, 1, 1, 1, 0, 1073741824, 0, 3, 262146, -1, 0, 0, 1073741825, 0, 5, 262148, -1, 1, 6, 2, 0),
+"variants": [SubResource("PackedScene_8sop3"), SubResource("Resource_2qegc"), SubResource("BoxMesh_f3jv1")],
+"version": 3
+}
 
 [sub_resource type="Animation" id="Animation_cp0fm"]
 length = 0.001
@@ -104,11 +155,11 @@ _data = {
 "shoot": SubResource("Animation_w511e")
 }
 
-[node name="Weapon" type="Node3D" node_paths=PackedStringArray("climp_component")]
-script = ExtResource("1_6d4p3")
+[node name="Pistol" type="Node3D" node_paths=PackedStringArray("climp_component")]
+script = ExtResource("1_d3uld")
 climp_component = NodePath("ClimpComponent")
 
-[node name="AddDebugInfoPanel" parent="." instance=ExtResource("3_2m2oq")]
+[node name="AddDebugInfoPanel" parent="." instance=ExtResource("2_p1jho")]
 proops = Array[String](["can_shoot"])
 
 [node name="Model" type="Node3D" parent="."]
@@ -125,13 +176,13 @@ transform = Transform3D(0.830236, -0.557412, 0, 0.557412, 0.830236, 0, 0, 0, 1, 
 mesh = SubResource("BoxMesh_af6v5")
 
 [node name="ClimpComponent" type="Node" parent="." node_paths=PackedStringArray("reload_timer")]
-script = ExtResource("2_rd0k7")
-climp_picked_up = ExtResource("4_feaq6")
+script = ExtResource("3_pqyov")
+climp_picked_up = SubResource("PackedScene_f3wkd")
 climp_count = 2
 climp_ammo_count = Array[int]([32, 32])
 reload_timer = NodePath("../ReloadTime")
 
-[node name="AddDebugInfoPanel" parent="ClimpComponent" instance=ExtResource("3_2m2oq")]
+[node name="AddDebugInfoPanel" parent="ClimpComponent" instance=ExtResource("2_p1jho")]
 proops = Array[String](["climp_ammo_count", "select_climp_idx"])
 top_level = false
 
