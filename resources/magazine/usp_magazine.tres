@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MagazineResource" load_steps=2 format=3 uid="uid://c6wfhp85c0in6"]
+
+[ext_resource type="Script" path="res://resources/magazine/magazine_resource.gd" id="1_dtiek"]
+
+[resource]
+script = ExtResource("1_dtiek")
+bullet_count = 15
+bullet_calibre = 0

@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://scripts/debug/add_info.gd" id="1_k4dv6"]
 
-[node name="AddDebugInfoPanel" type="Node" groups=["debug"]]
+[node name="AddDebugInfo" type="Node" groups=["debug"]]
 script = ExtResource("1_k4dv6")

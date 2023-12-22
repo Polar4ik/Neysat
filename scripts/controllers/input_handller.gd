@@ -13,7 +13,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 
-
 func walk_input() -> void:
 	var input_vec := Input.get_vector("left", "right", "forward", "back")
 	
