@@ -38,6 +38,14 @@ func shoot() -> void:
 	magazine_bullet_array[select_magazine - 1] -= 1
 
 
+func drop() -> void:
+	pass
+
+
+func take() -> void:
+	pass
+
+
 func reload() -> void:
 	await animator.animation_finished
 	

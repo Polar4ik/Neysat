@@ -22,8 +22,9 @@ func _ready() -> void:
 	
 	magazine_component.is_reload.connect(
 		func():
-		can_shoot = true
-		)
+			if magazine_component.ammo_have():
+				can_shoot = true)
+
 
 func shoot() -> void:
 	if not can_shoot:
@@ -40,11 +41,12 @@ func shoot() -> void:
 		
 		var decal_inst := shoot_decal.instantiate()
 		decal_inst.position = ray_cast.get_collision_point()
-		collider.get_parent().add_child(decal_inst)
+		collider.add_child(decal_inst)
+		collider.get_parent().print_tree_pretty()
+		
 		
 		if collider is DamageArea:
 			collider.give_damage()
-
 
 
 func reload() -> void:

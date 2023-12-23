@@ -6,6 +6,7 @@ class_name DamageArea
 
 
 func give_damage() -> void:
-	health_component.take_damage(damage)
+	if health_component:
+		health_component.take_damage(damage)
 
 
