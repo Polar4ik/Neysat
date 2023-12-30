@@ -3,9 +3,7 @@ extends PlayerState
 @export var friction := 6
 
 func _ready() -> void:
-	EventManager.walk_pressed.connect(func(i_p):
-		if i_p and get_parent().curent_state == self:
-			change_to.emit("walk"))
+	EventManager.move.connect(func(): change_to.emit("walk"))
 	
 	EventManager.jump.connect(func():
 		if get_parent().curent_state == self:

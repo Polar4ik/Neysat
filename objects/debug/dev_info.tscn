@@ -6,11 +6,12 @@
 script/source = "extends Control
 
 func _unhandled_input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed(\"change_visible_dev_menu\"):
+	if Input.is_action_just_pressed(\"change_dev_menu\"):
 		visible = not visible
 "
 
 [node name="DevInfo" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

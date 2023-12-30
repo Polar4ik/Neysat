@@ -1,12 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cl2qf2nj6vg7u"]
+[gd_scene load_steps=5 format=3 uid="uid://cl2qf2nj6vg7u"]
 
 [ext_resource type="PackedScene" uid="uid://grv62xnqypb4" path="res://scene/env/env.tscn" id="1_7v7ho"]
 [ext_resource type="PackedScene" uid="uid://byn00ig25tocr" path="res://objects/player.tscn" id="2_11eso"]
 [ext_resource type="PackedScene" uid="uid://g5h5ebb8udxf" path="res://objects/debug/dev_info.tscn" id="3_pjmso"]
-[ext_resource type="Texture2D" uid="uid://e6ycnj22yb7d" path="res://assets/textures/ui/crosspair.png" id="4_h00a1"]
-[ext_resource type="PackedScene" uid="uid://dyojmy0gdiep5" path="res://components/interaction/interaction_object.tscn" id="6_xpnv6"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_mhx2x"]
+[ext_resource type="Texture2D" uid="uid://o8vtdh832c2p" path="res://assets/textures/ui/crosshair.png" id="4_qc2mw"]
 
 [node name="Game" type="Node"]
 
@@ -36,16 +33,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_h00a1")
-
-[node name="InteractionObject" parent="." instance=ExtResource("6_xpnv6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionObject"]
-shape = SubResource("BoxShape3D_mhx2x")
+texture = ExtResource("4_qc2mw")

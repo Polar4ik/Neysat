@@ -2,11 +2,7 @@ extends PlayerState
 
 var walk_press := false
 
-func _ready() -> void:
-	EventManager.walk_pressed.connect(func(i_p):
-		if get_parent().curent_state == self:
-			walk_press = i_p
-	)
+
 
 
 func update(_delta: float) -> void:

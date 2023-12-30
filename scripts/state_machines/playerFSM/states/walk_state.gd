@@ -9,8 +9,9 @@ var input := Vector2.ZERO
 
 
 func _ready() -> void:
-	EventManager.walk_pressed.connect(change_idle)
-	EventManager.walk_input.connect(func(i_v): input = i_v)
+	EventManager.move.connect(func():
+		input = Input.get_vector("left", "right", "forward", "back")
+		)
 	
 	EventManager.jump.connect(func():
 		if get_parent().curent_state == self:
@@ -21,12 +22,8 @@ func enter() -> void:
 	speed = MAX_SPEED
 
 
-func change_idle(i_p: bool) -> void:
-	if i_p == false and is_curent_state():
-		change_to.emit("idle")
-
-
 func update(_delta: float) -> void:
+	
 	if player.is_on_floor() == false:
 		change_to.emit("air")
 
