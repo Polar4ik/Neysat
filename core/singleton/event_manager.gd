@@ -1,6 +1,7 @@
 extends Node
 
 signal move(vector: Vector2)
+signal sprint
 
 signal jump
 

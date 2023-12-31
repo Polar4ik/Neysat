@@ -20,7 +20,7 @@
 collision_layer = 4
 script = ExtResource("1_iethp")
 
-[node name="AddDebugInfoPanel" parent="." instance=ExtResource("2_ijffh")]
+[node name="Caller" parent="." instance=ExtResource("2_ijffh")]
 proops = Array[String](["velocity", "is_on_floor", "rotation_degrees"])
 
 [node name="NormalCollision" type="CollisionShape3D" parent="."]
@@ -41,7 +41,7 @@ player = NodePath("..")
 script = ExtResource("2_3di04")
 init_state = NodePath("Idle")
 
-[node name="AddDebugInfoPanel" parent="PlayerFSM" instance=ExtResource("2_ijffh")]
+[node name="Caller" parent="PlayerFSM" instance=ExtResource("2_ijffh")]
 proops = Array[String](["curent_state"])
 top_level = false
 
@@ -51,7 +51,11 @@ player = NodePath("../..")
 
 [node name="Walk" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
 script = ExtResource("7_huxti")
-MAX_SPEED = 2.0
+player = NodePath("../..")
+
+[node name="Sprint" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]
+script = ExtResource("7_huxti")
+MAX_SPEED = 3.0
 player = NodePath("../..")
 
 [node name="Air" type="Node" parent="PlayerFSM" node_paths=PackedStringArray("player")]

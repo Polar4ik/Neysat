@@ -13,3 +13,10 @@ func head_rotation(vector: Vector2) -> void:
 	
 	rotation_degrees.x += -vector.y * sensity
 	rotation_degrees.x = clamp(rotation_degrees.x, -90.0, 90.0)
+
+func _process(_delta: float) -> void:
+	head_rotate_z()
+
+func head_rotate_z() -> void:
+	var side := -Input.get_axis("left", "right")
+	rotation_degrees.z = lerp(rotation_degrees.z, side * abs(player.velocity.x), .1)
