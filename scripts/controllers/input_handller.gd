@@ -4,7 +4,9 @@ extends Node
 var action_list := {
 	"move": Callable(Input, "is_action_pressed"),
 	"jump": Callable(Input, "is_action_just_pressed"),
-	"sprint": Callable(Input, "is_action_pressed")
+	"sprint": Callable(Input, "is_action_pressed"),
+	"interaction": Callable(Input, "is_action_just_pressed"),
+	
 }
 
 
@@ -19,5 +21,5 @@ func _unhandled_input(e: InputEvent) -> void:
 	
 
 func event_emit_signal(action: String) -> void:
-	if action in action_list:
+	if action in action_list and action_list[action].call(action):
 		EventManager.emit_signal(action)

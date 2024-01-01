@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://byn00ig25tocr"]
+[gd_scene load_steps=15 format=3 uid="uid://byn00ig25tocr"]
 
 [ext_resource type="Script" path="res://scripts/controllers/player_controller.gd" id="1_iethp"]
 [ext_resource type="Script" path="res://scripts/controllers/input_handller.gd" id="1_vjpci"]
@@ -13,6 +13,35 @@
 [ext_resource type="PackedScene" uid="uid://88gs7ubtyl2m" path="res://components/health_and_damage/health_component.tscn" id="12_0f45u"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_32cgx"]
+
+[sub_resource type="GDScript" id="GDScript_t3vk8"]
+script/source = "extends RayCast3D
+
+
+func _ready() -> void:
+	EventManager.interaction.connect(interaction)
+
+
+func _process(_delta: float) -> void:
+	if is_colliding():
+		var collider := get_collider()
+		
+		if collider is InteractionObject:
+			EventManager.hover_on_interact_body.emit(collider.get_promt())
+		else:
+			EventManager.hover_on_interact_body.emit(\"\")
+	
+	else:
+		EventManager.hover_on_interact_body.emit(\"\")
+
+func interaction() -> void:
+	if is_colliding():
+		var collider := get_collider()
+		
+		if collider is InteractionObject:
+			collider.interaction()
+
+"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_n0qdg"]
 
@@ -36,6 +65,12 @@ script = ExtResource("3_gik7f")
 player = NodePath("..")
 
 [node name="MainCamera" type="Camera3D" parent="Head"]
+current = true
+
+[node name="InteractRayCast" type="RayCast3D" parent="Head"]
+target_position = Vector3(0, 0, -2)
+collision_mask = 8
+script = SubResource("GDScript_t3vk8")
 
 [node name="PlayerFSM" type="Node" parent="." node_paths=PackedStringArray("init_state")]
 script = ExtResource("2_3di04")

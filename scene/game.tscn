@@ -1,13 +1,101 @@
-[gd_scene load_steps=5 format=3 uid="uid://cl2qf2nj6vg7u"]
+[gd_scene load_steps=13 format=3 uid="uid://cl2qf2nj6vg7u"]
 
 [ext_resource type="PackedScene" uid="uid://grv62xnqypb4" path="res://scene/env/env.tscn" id="1_7v7ho"]
 [ext_resource type="PackedScene" uid="uid://byn00ig25tocr" path="res://objects/player.tscn" id="2_11eso"]
 [ext_resource type="PackedScene" uid="uid://g5h5ebb8udxf" path="res://objects/debug/dev_info.tscn" id="3_pjmso"]
 [ext_resource type="Texture2D" uid="uid://o8vtdh832c2p" path="res://assets/textures/ui/crosshair.png" id="4_qc2mw"]
+[ext_resource type="PackedScene" uid="uid://d2mtnn5rfacx" path="res://components/interaction/interaction_object.tscn" id="5_5xl87"]
+
+[sub_resource type="Environment" id="Environment_0oqft"]
+background_mode = 1
+background_color = Color(0.521569, 0.854902, 0.94902, 1)
+tonemap_mode = 3
+sdfgi_enabled = true
+sdfgi_energy = 0.7
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
+volumetric_fog_length = 500.0
+volumetric_fog_temporal_reprojection_enabled = false
+adjustment_enabled = true
+adjustment_brightness = 1.1
+adjustment_contrast = 1.1
+adjustment_saturation = 0.9
+
+[sub_resource type="GDScript" id="GDScript_aarjp"]
+script/source = "extends Label
+
+func _ready() -> void:
+	EventManager.hover_on_interact_body.connect(set_label)
+
+func set_label(new_text: String) -> void:
+	if new_text != \"\":
+		text = new_text + \"\\n [F]\"
+	else:
+		text = \"\"
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rn0e0"]
+size = Vector3(0.41, 0.59, 0.455)
+
+[sub_resource type="Animation" id="Animation_b4qo5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Marker3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 1.0472)]
+}
+
+[sub_resource type="Animation" id="Animation_bmbkr"]
+resource_name = "change"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Marker3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2, 0.5),
+"update": 0,
+"values": [Vector3(0, 0, 1.0472), Vector3(0, 0, -1.0472)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m8wsn"]
+_data = {
+"RESET": SubResource("Animation_b4qo5"),
+"change": SubResource("Animation_bmbkr")
+}
+
+[sub_resource type="GDScript" id="GDScript_4fu1t"]
+script/source = "extends Node
+
+var activate := false
+
+func _on_interaction_object_interact() -> void:
+	if activate:
+		$\"../InteractionObject/Switch/AnimationPlayer\".play_backwards(\"change\")
+		activate = false
+	else:
+		$\"../InteractionObject/Switch/AnimationPlayer\".play(\"change\")
+		activate = true
+"
 
 [node name="Game" type="Node"]
 
 [node name="Env" parent="." instance=ExtResource("1_7v7ho")]
+
+[node name="WorldEnvironment" parent="Env" index="1"]
+environment = SubResource("Environment_0oqft")
+
+[node name="DirectionalLight3D" parent="Env" index="2"]
+light_indirect_energy = 16.0
 
 [node name="Player" parent="." instance=ExtResource("2_11eso")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
@@ -40,3 +128,64 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_qc2mw")
+
+[node name="InteractionPrompt" type="Label" parent="UI/UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 12.5
+offset_right = 20.0
+offset_bottom = 35.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Interaction
+[F]"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = SubResource("GDScript_aarjp")
+
+[node name="InteractionObject" parent="." instance=ExtResource("5_5xl87")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1.50107, -2)
+prompt = "Change"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionObject"]
+shape = SubResource("BoxShape3D_rn0e0")
+
+[node name="Switch" type="CSGCombiner3D" parent="InteractionObject"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractionObject/Switch"]
+size = Vector3(0.15, 0.55, 0.4)
+
+[node name="Marker3D" type="Marker3D" parent="InteractionObject/Switch"]
+transform = Transform3D(0.499998, -0.866026, 0, 0.866026, 0.499998, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="InteractionObject/Switch/Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.197, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractionObject/Switch/Marker3D/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0699997, 0, 0)
+size = Vector3(0.05, 0.05, 0.45)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="InteractionObject/Switch/Marker3D/CSGCombiner3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.0361528, 0, -0.1)
+size = Vector3(0.05, 0.05, 0.237695)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="InteractionObject/Switch/Marker3D/CSGCombiner3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.0361528, 0, 0.1)
+size = Vector3(0.05, 0.05, 0.237695)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="InteractionObject/Switch"]
+libraries = {
+"": SubResource("AnimationLibrary_m8wsn")
+}
+
+[node name="Changer" type="Node" parent="."]
+script = SubResource("GDScript_4fu1t")
+
+[connection signal="interact" from="InteractionObject" to="Changer" method="_on_interaction_object_interact"]
+
+[editable path="Env"]

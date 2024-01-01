@@ -11,7 +11,9 @@ func _ready() -> void:
 			states[child.name.to_lower()] = child
 			child.change_to.connect(change_state)
 	
-	curent_state = init_state
+	if init_state:
+		curent_state = init_state
+		curent_state.enter()
 
 
 
